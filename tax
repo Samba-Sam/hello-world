@@ -1,0 +1,46 @@
+import java.util.Scanner;
+
+public class App{
+
+    public static void main (String[] args)
+     {
+
+         Scanner obj = new Scanner(System.in);
+
+         System.out.print("Salary :" );
+         double sal = obj.nextDouble();
+         double tax=0;
+
+         System.out.println("Salary : " + sal);
+
+         if (sal <= 300000)
+         {
+            tax=0;
+         }
+
+         else if (sal <= 700000)
+         {
+            tax = (0.05* (sal-300000)) ;
+         }
+         
+         else if (sal <= 1000000)
+         {
+            tax = 20000 +  (0.1* (sal-700000));
+         }
+         else if (sal <= 1200000)
+         {
+            tax = 20000 + 30000 +  (0.2* (sal-1000000));
+         }
+         else if (sal <= 1500000)
+         {
+            tax = 20000+ 30000 +40000 +(0.3* (sal-1200000));
+         }
+
+         else if (sal > 1500000)
+         {
+            tax = 20000+ 30000 +40000 +90000 +(0.35* (sal-1500000));
+         }
+         
+         System.out.println("Tax Payable:" + tax);
+    }
+}
