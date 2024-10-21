@@ -1,0 +1,81 @@
+import java.util.Scanner;
+
+public class App{
+
+public static void main(String[] args){
+
+    Scanner obj = new Scanner(System.in);
+int b1=0,b2=0;
+boolean strikeb1=true;
+int dot=0, six=0, four=0;
+int[][] over = new int[3][6];
+
+
+for(int j = 0; j<= 2 ;j++)
+{
+    System.out.println("Enter Score of Over " + (j+1) );
+
+for(int i=0 ; i<= 5 ;i++)
+{
+    over[j][i] = obj.nextInt();
+
+}
+}
+
+System.out.println("Final Score: ");
+for(int j = 0; j<= 2 ;j++)
+{
+for(int i=0 ; i<= 5 ;i++)
+{
+    System.out.print( over[j][i] + " " );
+
+}
+System.out.println(" ");
+}
+    
+//logic
+for(int j = 0; j<= 2 ;j++)
+{
+for(int i=0 ; i<= 5 ;i++)
+    {
+        if(over[j][i] == 4  )
+        {
+            four = four+1;
+        }
+
+        if(over[j][i] == 6  )
+        {
+            six = six+1;
+        }
+
+        if(over[j][i] == 0  )
+        {
+            dot = dot+1;
+        }
+
+        if(strikeb1)
+        {
+            b1= b1+ over[j][i];
+        }
+        else
+        {
+            b2= b2+ over[j][i];
+        }
+
+     if(over[j][i] != 1 || over[j][i] != 3  )
+{
+    strikeb1 = !strikeb1;
+}
+     
+    }
+}
+
+System.out.println("Dot Balls :" + dot );
+System.out.println("Four  :" + four );
+System.out.println("Six  :" + six );
+System.out.println("Person1  :" + b1 );
+System.out.println("Person2  :" + b2 );
+System.out.println("Total  :" + (b1 +b2 ));
+
+}
+}
