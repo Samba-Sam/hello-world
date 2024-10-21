@@ -1,0 +1,115 @@
+
+import java.util.Scanner;
+
+
+public class App {
+    public static void main(String[] args)
+     {
+        Scanner obj = new Scanner(System.in);
+
+         System.out.println("Menu  ");
+        System.out.println("1-Dosa  ");
+        System.out.println("2-Idle  ");
+        System.out.println("3-Sambar  ");
+        System.out.println("4-Coke  ");
+        System.out.println("5-Exit  ");
+
+        int q1=0,q2=0,q3=0,q4=0;
+        int r1=100,r2=50,r3=150,r4=40;
+        int choice=0;
+    
+        while(choice!= 5)
+        {
+        System.out.println("Enter Your Choice");
+         choice = obj.nextInt();
+
+        switch (choice) 
+        {
+            case 1:
+            System.out.println("Quantity :");
+             q1 = obj.nextInt();
+            break;
+
+            case 2:
+            System.out.println("Quantity :");
+             q2 = obj.nextInt();
+            break;
+
+            case 3:
+            System.out.println("Quantity :");
+             q3 = obj.nextInt();
+            break;
+
+            case 4:
+            System.out.println("Quantity :");
+             q4 = obj.nextInt();
+            break;
+
+            case 5:
+            break;
+        
+            default:
+                break;
+        }
+
+        
+
+        }
+
+        double bill= (q1*r1 + q2*r2 + q3*r3 + q4*r4 ); 
+       
+        obj.nextLine();
+        
+        String promo;
+        double discount=0;
+        System.out.println(" PromoCode : Y/N");
+        String co = obj.nextLine();
+
+        if (co.equals("Y"))
+        {
+            System.out.println("Enter PromoCode");
+            promo= obj.nextLine();
+
+            if(promo.equals("INDIA10"))
+            {
+                discount = 0.1;
+            }
+
+            else if(promo.equals("INDIA20"))
+            {
+                discount = 0.2;
+            }
+
+            else if(promo.equals("INDIA30"))
+            {
+                discount = 0.3;
+            }
+
+            else
+            {
+                System.out.println("Invalid Code");
+            }
+
+    }
+double plat=5;
+double del=50;
+double gst=0.18, gsta,disa;
+gsta=(bill*gst);
+disa=(bill*discount);
+
+    System.out.println("Bill");
+    System.out.println("---------------------------------------------------------------");
+    System.out.println("Amount        :" + bill );
+    System.out.println("GST           :" + gsta);
+    System.out.println("Platform Fee  :" + plat );
+    System.out.println("Delivery Fee  :" + del );
+    System.out.println("Discount      :-" +  disa);
+    System.out.println("---------------------------------------------------------------");
+    System.out.println("Payable Amount: "+ (bill+gsta+plat+del-disa));
+    System.out.println("---------------------------------------------------------------");
+  
+    
+}
+
+
+}
