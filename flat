@@ -1,0 +1,56 @@
+import java.util.Scanner;
+
+public class App {
+    public static void main(String[] args) {
+        Scanner obj = new Scanner(System.in);
+
+        double bhk1 = 800, bhk2 = 1000, bhk3 = 1200;
+        double sqft = 200;
+        double balcony = 0.02;
+        double parking_a = 10000;
+        double parking_n = 0, a = 0, b = 0, p = 0;
+
+        System.out.println("Enter whether 1, 2, or 3 BHK:");
+        int choice = obj.nextInt();
+
+        switch (choice) {
+            case 1:
+                a = (bhk1 * sqft);
+                break;
+            case 2:
+                a = (bhk2 * sqft);
+                break;
+            case 3:
+                a = (bhk3 * sqft);
+                break;
+            default:
+                System.out.println("Invalid choice!");
+                return;
+        }
+
+        System.out.println("Enter Floor (1-50):");
+        int f = obj.nextInt();
+        obj.nextLine(); 
+
+        System.out.println("Balcony Required (Y/N):");
+        String c1 = obj.nextLine();
+
+        if (c1.equalsIgnoreCase("Y")) {
+            b = (a * balcony * f);
+        }
+
+        System.out.println("Parking Required (Y/N):");
+        String c2 = obj.nextLine();
+
+        if (c2.equalsIgnoreCase("Y")) {
+            System.out.println("Number Of Parking Required:");
+            parking_n = obj.nextInt();
+            p = (parking_a * parking_n);
+        }
+
+        System.out.println("Housing Cost: " + a);
+        System.out.println("Balcony Cost: " + b);
+        System.out.println("Parking Cost: " + p);
+        System.out.println("Total Cost: " + (a + b + p));
+    }
+}
