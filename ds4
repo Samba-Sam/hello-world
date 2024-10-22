@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <conio.h>
+#define size 5
+
+int queue[size];
+int f=-1 , r=-1;
+
+int empty()
+{
+return(f==-1 );
+}
+
+int full()
+{
+return(r == size-1);
+}
+
+void push(int x)
+{
+if(full())
+printf("Full");
+else
+ {
+   if(f==-1)
+   { f=0; }
+  r++;
+  queue[r]=x;
+}
+}
+
+void pop()
+{if(empty())
+{
+printf("empty\n");
+}
+else if(f == r)
+{
+f=-1;
+r=-1;
+}
+else
+f++;
+}
+
+
+void display()
+{
+int i;
+if(empty())
+{
+printf("empty\n");
+}
+else
+{
+for(i=f;i<=r;i++)
+ printf("%d ",queue[i]);
+}
+}
+
+void main()
+{
+int c,x;
+
+clrscr();
+
+do
+{
+
+printf("Choice ");
+scanf("%d",&c) ;
+
+switch (c)
+{
+case 1 :
+printf("Element :");
+scanf("%d",&x);
+push(x);
+break;
+
+case 2 :
+pop();
+break;
+
+case 3 :
+display();
+break;
+
+}
+
+}while(c!=4);
+
+getch();
+
+}
