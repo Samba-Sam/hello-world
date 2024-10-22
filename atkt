@@ -1,0 +1,160 @@
+import java.util.Scanner;
+
+public class App
+{
+    public static void main(String[] args) 
+    {
+        Scanner obj = new Scanner(System.in);
+
+  System.out.println(" ".repeat(50) + "MARKS ENTRY");
+  // EM,EP,EC,EG,CP,PCE,WS;
+  String[] sub = {"Engineering Mathematics","Engineering Physics","Engineering Chemistry","Professional Communication & Ethics - I","Engineering Graphics","C Programming","Basic Engineering Workshop - II"};
+  double[] emarks =new double[7];
+  double[] imarks =new double[7];
+  double[] tmarks =new double[7];
+  double[] omarks =new double[7];
+  
+   
+ int i ;
+ System.out.println("Enter mark    "   + ": External / Internal / Termwork / Orals ");
+ for(i=0;i<=6;i++)
+{
+    System.out.print("Enter Mark " + sub[i] + ": ");
+            emarks[i] = obj.nextDouble(); 
+      //        System.out.print(" / ");
+        if(i!=6) 
+        {
+        imarks[i] = obj.nextDouble(); 
+      //        System.out.print(" / " );
+           tmarks[i] = obj.nextDouble(); 
+           
+           if(i== 4 || i==5)
+           {
+               omarks[i] = obj.nextDouble(); 
+               
+           }
+        }  
+}
+
+
+double fail=0.4;
+int e1,i1,t1,o1;
+e1=i1=t1=o1=0;
+
+ for(i=0;i<=6;i++)
+{   
+    char ex='P';
+    char in='P';
+    char t= 'P';
+    char o= 'P';
+  
+   if(i==2 || i==3 )
+   {
+       if( (emarks[i]*1.6667) < 40 ) 
+    {
+         ex='F';
+         e1=e1+1;
+    }
+   }
+    else
+    {
+        if( (emarks[i]*1.25) < 40 ) 
+    {
+         ex='F';
+         e1=e1+1;
+    }
+    
+    }
+    if(i==2 || i==3 )
+    if( (imarks[i]*fail) < 40 ) 
+    {
+         in='F';
+         i1=i1+1;
+    }
+    if( (tmarks[i]*fail) < 40 ) 
+    {
+         t='F';
+         t1=t1+1;
+    }
+    if(i== 5 || i==4) 
+    {
+      if( (omarks[i]*fail) < 40 ) 
+      {
+         o='F';
+         o1=o1+1;
+      }
+    }
+    
+    if(i== 6) 
+    {
+      if( emarks[i] < 40 ) 
+      {
+         o='F';
+         o1=o1+1;
+      }
+    }
+    
+    if(i== 5 || i==4) 
+    {
+    System.out.println("Marks " + sub[i]  + ":  " + emarks[i] + ex + " / " + imarks[i] + in +" / " + tmarks[i] + t +" / " + omarks[i] + o)  ;
+    }
+    else if(i== 6)
+    {
+        System.out.println("Marks " + sub[i]  + ":  " + emarks[i] + ex  ) ;
+    }
+    else
+    {
+        System.out.println("Marks " + sub[i]  + ":  " + emarks[i] + ex + " / " + imarks[i] + in +" / " + tmarks[i] + t ) ;
+    }
+}
+
+
+if(e1 >=6)
+{
+    System.out.println(" ");
+    System.out.println("DROP DUE TO EXTERNAL EXAM  ");
+    System.out.println("Number Of KT : " + e1);
+}
+else
+{    System.out.println(" ");
+    System.out.println("Passed   ");
+    if(e1 ==0)
+    { System.out.println("No KT"); }
+    else
+    { System.out.println("Number of KT : " + e1);                            }
+}
+
+if(i1 >=3)
+{
+    System.out.println(" ");
+    System.out.println("DROP DUE TO INTERNAL EXAM  ");
+    System.out.println("Number Of KT : " + i1);
+}
+else
+{ System.out.println(" ");
+    System.out.println("Passed   ");
+    if(e1 ==0)
+    { System.out.println("No KT"); }
+    else
+    { System.out.println("Number of KT : " + i1);                            }
+}
+
+if(e1 >=6)
+{
+    System.out.println(" ");
+    System.out.println("DROP DUE TO TERMWORK   ");
+    System.out.println("Number Of KT : " + t1);
+}
+else
+{ System.out.println(" ");
+    System.out.println("Passed   ");
+    if(e1 ==0)
+    { System.out.println("No KT"); }
+    else
+    { 
+        System.out.println("Number of KT : " + t1) ;                  
+    }
+}
+    
+}
+}
