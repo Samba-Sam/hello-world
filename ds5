@@ -1,0 +1,134 @@
+#include <stdio.h>
+#include <conio.h>
+#define size 5
+
+int queue[size];
+int f = -1, r = -1;
+
+int empty()
+{
+    if (f == -1)
+        return 1;
+    else
+        return 0;
+}
+
+int full()
+{
+    if ((f == 0 && r == (size - 1)) || f == r + 1)
+        return 1;
+    else
+        return 0;
+}
+
+void push(int x)
+{
+    if (full())
+    {
+        printf("Full\n");
+    }
+    else if (f == -1 && r == -1)
+    {
+        f = r = 0;
+        queue[r] = x;
+    }
+    else if (r == size - 1 && f != 0)
+    {
+        r = 0;
+        queue[r] = x;
+    }
+    else
+    {
+        r++;
+        queue[r] = x;
+    }
+}
+
+void pop()
+{
+    if (empty())
+    {
+        printf("Empty\n");
+    }
+    else if (f == r)
+    {
+        f = r = -1;
+    }
+    else if (f == size - 1)
+    {
+        f = 0;
+    }
+    else
+    {
+        f++;
+    }
+}
+
+void display()
+{
+    int i;
+    if (empty())
+    {
+        printf("Empty\n");
+    }
+    else if (f <= r)
+    {
+        for (i = f; i <= r; i++)
+        {
+            printf("%d ", queue[i]);
+        }
+    }
+    else
+    {
+        for (i = f; i <= (size - 1); i++)
+        {
+            printf("%d ", queue[i]);
+        }
+
+        for (i = 0; i <= r; i++)
+        {
+            printf("%d ", queue[i]);
+        }
+    }
+    printf("\n");
+}
+
+int main()
+{
+    int c, x;
+
+    clrscr();
+    do
+    {
+        printf("Choice: ");
+        scanf("%d", &c);
+
+        switch (c)
+        {
+            case 1:
+                printf("Element: ");
+                scanf("%d", &x);
+                push(x);
+                break;
+
+            case 2:
+                pop();
+                break;
+
+            case 3:
+                display();
+                break;
+
+            default:
+                if (c != 4)
+                {
+                    printf("Invalid choice, please try again.\n");
+                }
+                break;
+        }
+
+    } while (c != 4);
+
+    getch(); 
+    return 0;
+}
