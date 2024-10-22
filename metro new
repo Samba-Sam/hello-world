@@ -1,0 +1,76 @@
+import java.util.Scanner;
+
+public class App {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int sourceWaitTime = 20 * 60; 
+        int stationWaitTime = 30; 
+        int travelTime = 210; 
+        int delayTime = 40; 
+        int totalStations = 10;
+        
+        int currentHour = 7; 
+        int currentMin = 0;
+        int currentSec = 0;
+
+        String[] timetable = new String[totalStations + 2];
+        timetable[0] = "Source Station: " + currentHour + ":" + currentMin + ":" + currentSec;
+
+        System.out.println("Train Timetable: ");
+        System.out.println(timetable[0]);
+        
+        for (int station = 1; station <= totalStations; station++) {
+            System.out.println("Is the train late between Station " + (station - 1) + " and Station " + station + "? (yes/no)");
+            String isLate = sc.nextLine();
+            
+            if (isLate.equalsIgnoreCase("yes")) {
+                travelTime += delayTime;
+            }
+            
+            currentSec += travelTime;
+            if (currentSec >= 60) {
+                currentMin += currentSec / 60;
+                currentSec = currentSec % 60;
+            }
+            if (currentMin >= 60) {
+                currentHour++;
+                currentMin = currentMin % 60;
+            }
+
+            timetable[station] = "Station " + station + ": " + currentHour + ":" + currentMin + ":" + currentSec;
+            System.out.println(timetable[station]);
+
+            travelTime = 210;
+
+            currentSec += stationWaitTime;
+            if (currentSec >= 60) {
+                currentMin += currentSec / 60;
+                currentSec = currentSec % 60;
+            }
+            if (currentMin >= 60) {
+                currentHour++;
+                currentMin = currentMin % 60;
+            }
+        }
+
+        currentSec += sourceWaitTime;
+        if (currentSec >= 60) {
+            currentMin += currentSec / 60;
+            currentSec = currentSec % 60;
+        }
+        if (currentMin >= 60) {
+            currentHour++;
+            currentMin = currentMin % 60;
+        }
+
+        timetable[totalStations + 1] = "Destination Station: " + currentHour + ":" + currentMin + ":" + currentSec;
+        System.out.println(timetable[totalStations + 1]);
+
+        System.out.println("\nFinal Train Timetable:");
+        for (String entry : timetable) {
+            System.out.println(entry);
+        }
+    }
+}
