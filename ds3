@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <conio.h>
+#include <string.h>
+
+int op(char n )
+{
+ return (n>='0' && n<='9');
+}
+
+void main()
+{
+ char post[20];
+ int s[20];
+ int i,a,b,c=0,top=-1;
+ clrscr();
+ printf("String :");
+ gets(post);
+
+ for(i=0; post[i]!= '\0' ; i++){
+
+ if(op(post[i]) == 1)
+ {
+  top++;
+  s[top] = (int) (post[i]- '0');
+ }
+
+ else
+ {
+  b = s[top];
+  top--;
+  a = s[top];
+  top--;
+
+  switch (post[i])
+{
+  case '*' :
+  c = b*a;
+  break;
+  case '/' :
+  c = b/a;
+  break;
+  case '-' :
+  c = b-a;
+  break;
+  case '+' :
+  c = b+a;
+  break;
+  }
+  top++;
+  s[top] = c;
+ }				}
+ printf("Results : %d",s[top]);
+ getch();
+}
