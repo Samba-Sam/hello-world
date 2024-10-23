@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node *link;
+};
+
+struct node *top = NULL;
+
+void push(int num) {
+    struct node *temp = (struct node *)malloc(sizeof(struct node));
+    if (temp == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    temp->data = num;
+    temp->link = top;
+    top = temp;
+}
+
+void pop() {
+    if (top == NULL) {
+        printf("Stack does not exist\n");
+    } else {
+        struct node *temp = top;
+        top = top->link;
+        free(temp);
+    }
+}
+
+void count() {
+    int c = 0;
+    struct node *q = top;
+    if (q == NULL) {
+        printf("Stack does not exist\n");
+    } else {
+        while (q != NULL) {
+            c++;
+            q = q->link;
+        }
+        printf("Number of nodes: %d\n", c);
+    }
+}
+
+void display() {
+    struct node *q = top;
+    if (q == NULL) {
+        printf("Stack does not exist\n");
+    } else {
+        printf("Contents:\n");
+        while (q != NULL) {
+            printf("%d\n", q->data);
+            q = q->link;
+        }
+    }
+}
+
+int main() {
+    int n, c;
+    do {
+        printf("Enter your choice:\n");
+        printf("1. Create/push\t");
+        printf("2. Pop\t");
+        printf("3. Count\t");
+        printf("4. Display\t");
+        printf("5. Exit\n");
+        scanf("%d", &c);
+        switch (c) {
+            case 1:
+                printf("Enter a value:\n");
+                scanf("%d", &n);
+                push(n);
+                break;
+            case 2:
+                pop();
+                break;
+            case 3:
+                count();
+                break;
+            case 4:
+                display();
+                break;
+        }
+    } while (c != 5);
+    return 0;
+}
