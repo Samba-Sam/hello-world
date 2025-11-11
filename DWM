@@ -1,0 +1,716 @@
+Code : Naive
+
+headers = ['Outlook','Temperature','Humidity','Windy','Class']
+data = [
+    ['sunny', 'hot', 'high', False, 'no'], ['sunny', 'hot', 'high', True, 'no'],
+    ['overcast', 'hot', 'high', False, 'yes'], ['rain', 'mild', 'high', False, 'yes'],
+    ['rain', 'cool', 'normal', False, 'yes'], ['rain', 'cool', 'normal', True, 'no'],
+    ['overcast', 'cool', 'normal', True, 'yes'], ['sunny', 'mild', 'high', False, 'no'],
+    ['sunny', 'cool', 'normal', False, 'yes'], ['rain', 'mild', 'normal', False, 'yes'],
+    ['sunny', 'mild', 'normal', True, 'yes'], ['overcast', 'mild', 'high', True, 'yes'],
+    ['overcast', 'hot', 'normal', False, 'yes'], ['rain', 'mild', 'high', True, 'no']
+]
+
+total_samples = len(data)
+class_col = 4 # Index for 'Class'
+
+# --- 1. Get Prior Counts ---
+yes_count = 0
+no_count = 0
+for row in data:
+    if row[class_col] == 'yes':
+        yes_count += 1
+    else:
+        no_count += 1
+
+print("--- Prior Counts ---")
+print(f"Total 'Yes' count: {yes_count}")
+print(f"Total 'No' count:  {no_count}")
+print("-" * 30)
+
+# --- 2. Initialize ALL Conditional Counters ---
+# Outlook (col 0)
+sunny_yes = 0; sunny_no = 0
+overcast_yes = 0; overcast_no = 0
+rain_yes = 0; rain_no = 0
+
+# Temperature (col 1)
+hot_yes = 0; hot_no = 0
+mild_yes = 0; mild_no = 0
+cool_yes = 0; cool_no = 0
+
+# Humidity (col 2)
+high_yes = 0; high_no = 0
+normal_yes = 0; normal_no = 0
+
+# Windy (col 3)
+true_yes = 0; true_no = 0
+false_yes = 0; false_no = 0
+
+# --- 3. Loop ONCE to count everything ---
+for row in data:
+    class_val = row[4]
+    
+    # --- Check Outlook (col 0) ---
+    outlook_val = row[0]
+
+    if outlook_val == 'sunny' and class_val == 'yes':
+        sunny_yes += 1
+    elif outlook_val == 'sunny' and class_val == 'no':
+        sunny_no += 1
+    elif outlook_val == 'overcast' and class_val == 'yes':
+        overcast_yes += 1
+    elif outlook_val == 'overcast' and class_val == 'no':
+        overcast_no += 1
+    elif outlook_val == 'rain' and class_val == 'yes':
+        rain_yes += 1
+    elif outlook_val == 'rain' and class_val == 'no':
+        rain_no += 1
+
+    # --- Check Temperature (col 1) ---
+    temp_val = row[1]
+    if temp_val == 'hot' and class_val == 'yes':
+        hot_yes += 1
+    elif temp_val == 'hot' and class_val == 'no':
+        hot_no += 1
+    elif temp_val == 'mild' and class_val == 'yes':
+        mild_yes += 1
+    elif temp_val == 'mild' and class_val == 'no':
+        mild_no += 1
+    elif temp_val == 'cool' and class_val == 'yes':
+        cool_yes += 1
+    elif temp_val == 'cool' and class_val == 'no':
+        cool_no += 1
+
+    # --- Check Humidity (col 2) ---
+    humid_val = row[2]
+    if humid_val == 'high' and class_val == 'yes':
+        high_yes += 1
+    elif humid_val == 'high' and class_val == 'no':
+        high_no += 1
+    elif humid_val == 'normal' and class_val == 'yes':
+        normal_yes += 1
+    elif humid_val == 'normal' and class_val == 'no':
+        normal_no += 1
+
+    # --- Check Windy (col 3) ---
+    windy_val = row[3]
+    if windy_val == True and class_val == 'yes':
+        true_yes += 1
+    elif windy_val == True and class_val == 'no':
+        true_no += 1
+    elif windy_val == False and class_val == 'yes':
+        false_yes += 1
+    elif windy_val == False and class_val == 'no':
+        false_no += 1
+
+
+
+# --- 5. Calculate Probabilities for the Test Case ---
+# X = {Outlook=sunny, Temperature=hot, Humidity=high, Windy=false}
+unknown_sample = ['sunny', 'hot', 'high', False]
+
+print(f"Calculating for sample: {unknown_sample}")
+
+# --- Calculate P(Yes) ---
+# P(Yes) * P(Sunny|Yes) * P(Hot|Yes) * P(High|Yes) * P(False|Yes)
+P_yes_final = (yes_count / total_samples) * \
+              (sunny_yes / yes_count) * \
+              (hot_yes / yes_count) * \
+              (high_yes / yes_count) * \
+              (false_yes / yes_count)
+
+# --- Calculate P(No) (as you requested) ---
+# P(No) * P(Sunny|No) * P(Hot|No) * P(High|No) * P(False|No)
+P_no_final = (no_count / total_samples) * \
+             (sunny_no / no_count) * \
+             (hot_no / no_count) * \
+             (high_no / no_count) * \
+             (false_no / no_count)
+
+print("\n--- Final Scores ---")
+print(f"P(Yes) * P(X|Yes) = {P_yes_final:.6f}  (Matches your sheet: 0.0071)")
+print(f"P(No) * P(X|No)   = {P_no_final:.6f}  (Matches your sheet: 0.0274)")
+
+print("\n--- Conclusion ---")
+if P_no_final > P_yes_final:
+    print("P(No) is greater. Prediction: NO")
+else:
+    print("P(Yes) is greater. Prediction: YES")
+
+
+My code : 
+
+headers = ["a","b","c","d"]
+
+data = [
+
+            ["hot","high",False,"yes"],
+            ["hot","high",True,"yes"],
+            ["cool","low",False,"no"],
+            ["hot","high",True,"yes"],
+            ["cool","low",True,"no"],
+            ["mild","high",False,"yes"],
+            ["cool","low",True,"yes"]
+            
+]
+yes = no = 0
+print(headers,data[3])
+
+true_y = true_n = false_y = false_n = 0
+
+print(len(data))
+
+for row in data:
+
+    z = row[3]
+
+    if z == "yes":
+     yes += 1
+    else :
+     no += 1
+print(yes,no)
+
+for row in data:
+
+    z = row[3]
+    y = row[2]
+
+    if ((y == True) & (z == "yes")):
+        true_y += 1
+    if ((y == True) & (z == "no")):
+        true_n += 1
+    if ((y == False) & (z == "yes")):
+        false_y += 1
+    if ((y == False) & (z == "no")):
+        false_y += 1
+
+print(true_y , true_n , false_y , false_n )
+
+K mean 
+
+
+
+data = [1,2,3,4,5,6,7,8,9,10]
+k = 3
+print(len(data))
+
+
+n = len(data)
+
+
+print(data[0])
+
+
+Q1 = Q2 = Q3 = []
+i = 0
+
+
+Q1=[]
+
+
+Q1 = []
+Q2 = data[:n//2]
+Q3 = data[n//2:]
+
+
+print(Q1,Q2,Q3)
+
+
+q1m = q2m = q3m = 0
+
+
+
+
+q1l = len(Q1)
+q2l = len(Q2)
+q3l = len(Q3)
+
+
+
+
+q2m = sum(Q2)/q2l
+q3m = sum(Q3)/q3l
+
+
+print(q1m,q2m ,q3m)
+
+
+new_cluster1 = []
+new_cluster2 = []
+new_cluster3 = []
+
+
+for point in data :
+
+
+    dis_q1 = abs(point - q1m)
+    dis_q2 = abs(point - q2m)
+    dis_q3 = abs(point - q3m)
+   
+    minimum = min(dis_q1,dis_q2,dis_q3)
+
+
+    if minimum == dis_q1 :
+     new_cluster1.append(point)
+    if minimum == dis_q2 :
+     new_cluster2.append(point)
+    if minimum == dis_q3 :
+     new_cluster3.append(point)
+
+
+print(new_cluster1,new_cluster2,new_cluster3)
+
+
+Q1 = new_cluster1
+Q2 =new_cluster2
+Q3 =new_cluster3
+
+
+#interation 1
+
+
+q1l = len(Q1)
+q2l = len(Q2)
+q3l = len(Q3)
+
+
+q1m = sum(Q1)/q1l
+q2m = sum(Q2)/q2l
+q3m = sum(Q3)/q3l
+
+
+print(q1m,q2m ,q3m)
+
+
+new_cluster1 = []
+new_cluster2 = []
+new_cluster3 = []
+
+
+for point in data :
+
+
+    dis_q1 = abs(point - q1m)
+    dis_q2 = abs(point - q2m)
+    dis_q3 = abs(point - q3m)
+   
+    minimum = min(dis_q1,dis_q2,dis_q3)
+
+
+    if minimum == dis_q1 :
+     new_cluster1.append(point)
+    if minimum == dis_q2 :
+     new_cluster2.append(point)
+    if minimum == dis_q3 :
+     new_cluster3.append(point)
+
+
+print(new_cluster1,new_cluster2,new_cluster3)
+
+
+Q1 = new_cluster1
+Q2 =new_cluster2
+Q3 =new_cluster3
+
+
+
+
+
+
+
+
+#interation 2
+
+
+q1l = len(Q1)
+q2l = len(Q2)
+q3l = len(Q3)
+
+
+q1m = sum(Q1)/q1l
+q2m = sum(Q2)/q2l
+q3m = sum(Q3)/q3l
+
+
+print(q1m,q2m ,q3m)
+
+
+new_cluster1 = []
+new_cluster2 = []
+new_cluster3 = []
+
+
+for point in data :
+
+
+    dis_q1 = abs(point - q1m)
+    dis_q2 = abs(point - q2m)
+    dis_q3 = abs(point - q3m)
+   
+    minimum = min(dis_q1,dis_q2,dis_q3)
+
+
+    if minimum == dis_q1 :
+     new_cluster1.append(point)
+    if minimum == dis_q2 :
+     new_cluster2.append(point)
+    if minimum == dis_q3 :
+     new_cluster3.append(point)
+
+
+print(new_cluster1,new_cluster2,new_cluster3)
+
+
+Q1 = new_cluster1
+Q2 =new_cluster2
+Q3 =new_cluster3
+
+
+
+
+
+
+
+
+
+
+Decision tree:
+
+import math
+
+
+def calculate_entropy(data):
+   
+    target_col = [row[-1] for row in data]
+    total_entries = len(target_col)
+   
+    if total_entries == 0:
+        return 0
+       
+    counts = {}
+    for val in target_col:
+        if val not in counts:
+            counts[val] = 0
+        counts[val] += 1
+       
+    entropy = 0.0
+    for val in counts:
+        proportion = counts[val] / total_entries
+        if proportion > 0:
+            entropy -= proportion * math.log2(proportion)
+           
+    return entropy
+
+
+def get_best_attribute(data, attributes):
+   
+   
+    base_entropy = calculate_entropy(data)
+    best_info_gain = -1.0
+    best_attr = -1
+   
+    num_attrs = len(attributes)
+   
+    for i in range(num_attrs):
+        attr_index = i
+       
+       
+        if attributes[attr_index] == "USED":
+            continue
+           
+        attr_values = {}
+        for row in data:
+            val = row[attr_index]
+            if val not in attr_values:
+                attr_values[val] = []
+            attr_values[val].append(row)
+           
+        new_entropy = 0.0
+        for val in attr_values:
+            subset = attr_values[val]
+            subset_proportion = len(subset) / len(data)
+            new_entropy += subset_proportion * calculate_entropy(subset)
+           
+        info_gain = base_entropy - new_entropy
+       
+       
+        if info_gain > best_info_gain:
+            best_info_gain = info_gain
+            best_attr = attr_index
+           
+    return best_attr
+
+
+def get_majority_vote(data):
+   
+    target_col = [row[-1] for row in data]
+    counts = {}
+    for val in target_col:
+        if val not in counts:
+            counts[val] = 0
+        counts[val] += 1
+       
+    max_count = -1
+    major_class = ""
+    for val in counts:
+        if counts[val] > max_count:
+            max_count = counts[val]
+            major_class = val
+           
+    return major_class
+
+
+def build_tree(data, attributes):
+   
+   
+    target_col = [row[-1] for row in data]
+   
+   
+    if len(set(target_col)) == 1:
+        return target_col[0]
+       
+   
+    all_used = True
+    for attr in attributes:
+        if attr != "USED":
+            all_used = False
+            break
+           
+    if all_used:
+       
+        return get_majority_vote(data)
+       
+   
+    if len(data) == 0:
+        return "ERROR"
+       
+   
+   
+    best_attr_index = get_best_attribute(data, attributes)
+   
+    if best_attr_index == -1:
+       
+        return get_majority_vote(data)
+       
+    best_attr_name = attributes[best_attr_index]
+   
+   
+    tree = {best_attr_name: {}}
+   
+   
+    attributes_copy = list(attributes)
+    attributes_copy[best_attr_index] = "USED"
+   
+   
+    attr_values = set([row[best_attr_index] for row in data])
+   
+    for val in attr_values:
+       
+        subset = []
+        for row in data:
+            if row[best_attr_index] == val:
+               
+               
+                subset.append(row)
+       
+        if len(subset) == 0:
+           
+            tree[best_attr_name][val] = get_majority_vote(data)
+        else:
+           
+            subtree = build_tree(subset, attributes_copy)
+            tree[best_attr_name][val] = subtree
+           
+    return tree
+
+
+
+
+
+
+
+
+
+
+dataset = [
+    ['Sunny', 'Hot', 'High', 'Weak', 'No'],
+    ['Sunny', 'Hot', 'High', 'Strong', 'No'],
+    ['Overcast', 'Hot', 'High', 'Weak', 'Yes'],
+    ['Rain', 'Mild', 'High', 'Weak', 'Yes'],
+    ['Rain', 'Cool', 'Normal', 'Weak', 'Yes'],
+    ['Rain', 'Cool', 'Normal', 'Strong', 'No'],
+    ['Overcast', 'Cool', 'Normal', 'Strong', 'Yes'],
+    ['Sunny', 'Mild', 'High', 'Weak', 'No'],
+    ['Sunny', 'Cool', 'Normal', 'Weak', 'Yes'],
+    ['Rain', 'Mild', 'Normal', 'Weak', 'Yes'],
+    ['Sunny', 'Mild', 'Normal', 'Strong', 'Yes'],
+    ['OverGcast', 'Mild', 'High', 'Strong', 'Yes'],
+    ['Overcast', 'Hot', 'Normal', 'Weak', 'Yes'],
+    ['Rain', 'Mild', 'High', 'Strong', 'No']
+]
+
+
+attribute_names = ['Outlook', 'Temp', 'Humidity', 'Wind']
+
+
+
+
+decision_tree = build_tree(dataset, attribute_names)
+
+
+
+
+print("Decision Tree:")
+import json
+print(json.dumps(decision_tree, indent=4))
+
+
+
+Apriori:
+confidence = 50
+support = 5
+
+
+transaction = [
+    ['A','B','C','D'],
+    ['A','C','D','E'],
+    ['B','C','D','E'],
+    ['A','B','D','E'],
+    ['A','E']
+]
+item_count = {}
+
+
+for t in transaction:
+    print(t)
+
+
+for transaction in transaction:
+
+
+    for item in transaction:
+       
+        if item not in item_count:
+            item_count[item] = 1
+        else:
+            item_count[item] += 1
+
+
+print(item_count)
+
+
+if (item_count['B']) < support:
+  item_count.pop("B")
+
+
+print(item_count)
+
+
+if (item_count['C']) < support:
+  item_count.pop("C")
+
+
+print(item_count)
+
+
+new_pair = []
+
+
+copy_item_count = item_count
+print(copy_item_count)  
+
+
+for i in range( 0,4) :
+    for j in range( 0,4) :
+        if i != j:
+          new_pair.append([item_count['A'] , copy_item_count['A']])
+
+
+
+
+print(new_pair)
+
+
+AFTHER THIS GROUP AND FIND CONFIDENCE AND ACCEPT AND REJECT ACCORDINLY	
+
+
+FP Growth:
+
+data = [
+
+
+    ['A','B','C'],
+    ['A','B'],
+    ['A','C'],
+    ['B','C'],
+    ['B','D'],
+    ['C','D'],
+]
+
+
+confidnece = 50
+support = 4
+
+
+item_count = {}
+
+
+for data in data :
+    for item in data:
+        if item not in item_count:
+            item_count[item] = 1
+        else :
+            item_count[item] += 1
+
+
+print(item_count)
+
+
+if item_count['A'] < support :
+ item_count.pop("A")
+print(item_count)
+
+
+if item_count['B'] < support :
+ item_count.pop("B")
+print(item_count)
+
+
+if item_count['C'] < support :
+ item_count.pop("C")
+print(item_count)
+
+
+if item_count['D'] < support :
+ item_count.pop("D")
+print(item_count)
+
+
+new_data = []
+
+
+for data in data :
+    for item in item_count:
+       
+        if item == 'B' :
+            new_data.append(" Null -->B")
+        if item == 'C' :
+            new_data.append("--> C")
+
+
+   
+        if item == 'C' :
+            new_data.append("Null -->C")
+
+
+        if item == 'B' :
+            new_data.append("Null -->B")
+
+
+print(new_data)
+
+
+for i in new_data :
+    print(i)
+
